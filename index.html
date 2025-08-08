@@ -1,88 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>iOS-style Screen Time Generator</title>
-
-  <!-- html2canvas CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iOS 18 Screen Time Generator</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-  <main class="app-shell">
-    <aside class="controls">
-      <h1>Screen Time — iOS 18 style</h1>
-      <p class="muted">Realistic iOS Screen Time mockups. Uses system SF font when available.</p>
 
-      <div class="row">
-        <label class="radio"><input type="radio" name="device" value="iphone" checked> iPhone</label>
-        <label class="radio"><input type="radio" name="device" value="android"> Android</label>
-      </div>
+<div id="controls">
+    <h2>Screen Time Editor</h2>
+    <label>Username: <input type="text" id="username" value="Jadyn's"></label>
+    <label>Time (top bar): <input type="text" id="time" value="4:31"></label>
+    <label>Daily Average: <input type="text" id="dailyAverage" value="12h 14m"></label>
+    <label>Total Screen Time: <input type="text" id="totalTime" value="48h 56m"></label>
+    <label>Change %: <input type="text" id="changePercent" value="41%"></label>
 
-      <div class="form-grid">
-        <label>Date <input type="date" id="date"></label>
-        <label>Total hours <input id="totalHours" type="number" step="0.1" min="0" value="3.5"></label>
-      </div>
-
-      <div class="form-grid">
-        <label>Wallpaper <input id="wallpaper" type="color" value="#0b1220"></label>
-        <label>Accent <input id="accent" type="color" value="#0b84ff"></label>
-      </div>
-
-      <div class="apps-block">
-        <div class="apps-head">
-          <strong>Apps (top→bottom)</strong>
-          <button id="addApp" class="btn small">+ Add</button>
+    <h3>Apps</h3>
+    <div id="apps">
+        <div class="app">
+            <input type="text" class="appName" value="TikTok">
+            <input type="text" class="appTime" value="41h 4m">
         </div>
-        <div id="appsList" class="apps-list"></div>
-      </div>
-
-      <div class="controls-footer">
-        <button id="download" class="btn">Download PNG</button>
-        <button id="exportJSON" class="btn ghost">Export JSON</button>
-        <label class="btn ghost file-label">Import <input id="importJSON" type="file" accept="application/json"></label>
-      </div>
-
-      <p class="tip muted">Tip: open on an iPhone (Safari) to see the system SF typeface. Otherwise system-ui mimics it on other platforms.</p>
-    </aside>
-
-    <section class="preview-area">
-      <div id="previewDevice" class="device iphone">
-        <!-- simulated notch / status area -->
-        <div class="status">
-          <div class="time">9:41</div>
-          <div class="status-right">🔋 82%</div>
+        <div class="app">
+            <input type="text" class="appName" value="Messages">
+            <input type="text" class="appTime" value="12h 0m">
         </div>
+    </div>
+    <button id="addApp">+ Add App</button>
 
-        <!-- content card -->
-        <div class="screen-content" id="screenContent">
-          <div class="heading">
-            <div class="title">Screen Time</div>
-            <div class="subtitle" id="previewDate">—</div>
-          </div>
+    <button id="download">Download PNG</button>
+</div>
 
-          <div class="card glass">
-            <div class="card-row summary">
-              <div class="summary-left">
-                <div class="big-time" id="totalHoursView">3.5 hrs</div>
-                <div class="small">Total for today</div>
-              </div>
-              <div class="summary-right">
-                <div class="circle-pulse" aria-hidden></div>
-              </div>
+<!-- Phone Preview -->
+<div id="phonePreview">
+    <div class="status-bar">
+        <span class="time" id="previewTime">4:31</span>
+        <span class="status-icons">📶 📡 🔋</span>
+    </div>
+    <div class="header">
+        <span class="back">‹ Back</span>
+        <span class="title" id="previewUsername">Jadyn's</span>
+    </div>
+    <div class="tabs">
+        <div class="tab active">Week</div>
+        <div class="tab">Day</div>
+    </div>
+    <div class="section-label">SCREEN TIME</div>
+    <div class="daily-average">
+        <div class="left">
+            <div class="label">Daily Average</div>
+            <div class="value" id="previewDailyAverage">12h 14m</div>
+        </div>
+        <div class="right">
+            <span class="percent">⬆ <span id="previewChange">41%</span> from last week</span>
+        </div>
+    </div>
+    <div class="bar-chart">
+        <div class="bar social" style="height:80%"></div>
+        <div class="bar entertainment" style="height:50%"></div>
+        <div class="bar utilities" style="height:30%"></div>
+    </div>
+    <div class="total-time">
+        Total Screen Time <span id="previewTotalTime">48h 56m</span>
+    </div>
+    <div class="most-used">
+        <div class="header">
+            MOST USED <span class="link">SHOW CATEGORIES</span>
+        </div>
+        <div id="appList">
+            <div class="appRow">
+                <span class="appIcon">🎵</span>
+                <span class="appName">TikTok</span>
+                <span class="appTime">41h 4m</span>
             </div>
-
-            <div id="previewApps" class="apps-preview"></div>
-          </div>
-
-          <div class="meta muted">Generated with iOS 18 style • Not an Apple screenshot</div>
+            <div class="appRow">
+                <span class="appIcon">💬</span>
+                <span class="appName">Messages</span>
+                <span class="appTime">12h 0m</span>
+            </div>
         </div>
-      </div>
-    </section>
-  </main>
+    </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
