@@ -1,132 +1,102 @@
-body {
-  background: #111827;
-  color: white;
-  font-family: sans-serif;
-  margin: 0;
+/* iOS-like style (uses system SF variants when available) */
+:root{
+  --bg:#0b1220;
+  --card-bg: rgba(255,255,255,0.06);
+  --muted: rgba(255,255,255,0.7);
+  --glass-blur: 12px;
+  --radius: 14px;
+  --accent: #0b84ff;
 }
 
-.container {
-  display: flex;
-  padding: 20px;
-  gap: 20px;
+/* Use Apple's system font family so Safari/iOS will use SF Pro */
+html,body{
+  height:100%;
+  margin:0;
+  font-family: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg,#05060a 0%, #0b1220 60%);
+  color: #fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-.controls {
-  width: 300px;
-  background: #1f2937;
-  padding: 15px;
-  border-radius: 10px;
+.app-shell{
+  display:flex;
+  gap:20px;
+  padding:24px;
+  align-items:flex-start;
+  min-height:100%;
+  box-sizing:border-box;
 }
 
-.section {
-  margin-top: 15px;
+/* Controls */
+.controls{
+  width:320px;
+  background: rgba(255,255,255,0.03);
+  border-radius:12px;
+  padding:18px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.controls h1{font-size:18px;margin:0 0 6px 0}
+.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center;margin:12px 0}
+.radio input{margin-right:8px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.form-grid label{font-size:13px}
+input[type="date"], input[type="number"], input[type="color"], input[type="text"]{
+  width:100%; padding:8px; margin-top:6px; border-radius:8px; border:none; background: rgba(255,255,255,0.03); color:#fff;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
+/* Apps list */
+.apps-block{margin-top:14px}
+.apps-head{display:flex;justify-content:space-between;align-items:center}
+.apps-list{margin-top:8px; max-height:220px; overflow:auto; padding-right:6px}
+.app-row{
+  display:flex; gap:8px; align-items:center; margin-bottom:8px; background: rgba(255,255,255,0.02); padding:8px; border-radius:10px;
+}
+.app-row input[type="text"], .app-row input[type="number"]{background:transparent;border:none;color:#fff;padding:6px;border-radius:6px}
+.btn{background:var(--accent); color:#fff; border:none; padding:8px 10px; border-radius:9px; cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn.small{padding:6px 8px;font-size:13px}
+.file-label input{display:none}
+.controls-footer{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* Preview */
+.preview-area{flex:1;display:flex;justify-content:center;align-items:flex-start;padding-top:20px}
+.device{
+  width:390px; border-radius:42px; overflow:hidden; box-shadow: 0 20px 40px rgba(2,6,23,0.7);
+  background: var(--bg);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.status{display:flex;justify-content:space-between;padding:14px 18px;font-size:13px;opacity:0.95}
+.screen-content{padding:18px}
+.heading{margin-bottom:10px}
+.title{font-size:20px;font-weight:700}
+.subtitle{font-size:13px;color:var(--muted)}
+
+.card.glass{
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding:14px;
+  backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
-input[type="date"],
-input[type="number"],
-input[type="color"],
-input[type="text"] {
-  width: 100%;
-  padding: 5px;
-  margin-top: 3px;
-  border-radius: 5px;
-  border: none;
-  background: #374151;
-  color: white;
-}
+/* card summary */
+.card-row.summary{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.big-time{font-weight:700;font-size:18px}
+.small{font-size:12px;color:var(--muted)}
 
-button {
-  padding: 5px 10px;
-  background: #2563eb;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-}
+/* apps preview (bars) */
+.apps-preview{display:flex;flex-direction:column;gap:10px}
+.app-item{display:flex;flex-direction:column;gap:6px}
+.app-item .row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.progress{height:8px;background:rgba(255,255,255,0.06);border-radius:6px;overflow:hidden}
+.progress > i{display:block;height:100%;background:var(--accent);}
 
-.apps-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/* tiny metadata */
+.meta{margin-top:12px;font-size:12px;color:var(--muted)}
 
-.app-input {
-  display: flex;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-.app-input input {
-  flex: 1;
-}
-
-.preview-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.device {
-  width: 320px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #0b1220;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-}
-
-.status-bar {
-  padding: 10px;
-  font-size: 12px;
-  background: rgba(0,0,0,0.3);
-}
-
-.content {
-  padding: 15px;
-}
-
-.title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.subtitle {
-  font-size: 12px;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
-
-.app-bar {
-  margin-bottom: 8px;
-}
-
-.app-bar-name {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-}
-
-.progress {
-  height: 8px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 5px;
-  overflow: hidden;
-  margin-top: 5px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: #7c3aed;
-}
-
-.footer {
-  font-size: 10px;
-  opacity: 0.6;
-  margin-top: 10px;
-}
+/* small helpers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
